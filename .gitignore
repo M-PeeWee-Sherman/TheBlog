@@ -105,3 +105,6 @@ dist
 
 # Docker temp file
 docker/
+
+#MAC specific file
+.DS_Store
