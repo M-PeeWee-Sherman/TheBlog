@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    container_name: db
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: docker
+    ports:
+      - 5432:5432
+    networks:
+      - my_network
+    volumes:
+      - ./docker/data/db:/var/lib/postgresql/data
+  
+  server:
+    build: ./server
+    container_name: server
+    volumes:
+      - "./server:/app"
+    ports:
+      - "3001:3001"
+    networks:
+      - my_network
+    environment:
+      DB_CONNECTION_STRING: postgres://postgres:password@db:5432/db
+    depends_on:
+      - db
+
+  frontend:
+    build: ./react_client
+    volumes:
+      - "./react_client:/app"
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - my_network
+    depends_on:
+      - server
+
+networks:
+  my_network:
+    driver: bridge
