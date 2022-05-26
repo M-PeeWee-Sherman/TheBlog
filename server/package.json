@@ -4,12 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "migrate": "npx knex migrate:rollback && npx knex migrate:latest && npx knex seed:run"
   },
   "author": "Michael Sherman",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.1",
-    "nodemon": "^2.0.16"
+    "knex": "^2.0.0",
+    "nodemon": "^2.0.16",
+    "pg": "^8.7.3"
   }
 }
