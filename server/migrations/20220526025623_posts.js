@@ -7,6 +7,9 @@ exports.up = function(knex) {
         table.increments('id');
         table.integer('users_id').notNullable();
         table.foreign('users_id').references('id').inTable('users');
+        table.datetime('stamp').defaultTo(knex.fn.now());
+        table.string('title',100);
+        table.text('content');
     });
 };
 
