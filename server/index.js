@@ -28,11 +28,23 @@ app.get('/posts', (req,res)=>{
       );
  })
 
-// //Update Post
-// app.put('/posts', (req,res)=>{
-//     let data = req.body;
-//     knex('posts').update(data)
-// })
+ //Update Post
+ app.post('/posts', (req,res)=>{
+    let data = req.body;
+    knex('posts').returning('id').insert(data).then(id=>{
+        return res.status(200).json(id);
+    });
+    
+})
+
+ //Update Post
+app.put('/posts', (req,res)=>{
+    let data = req.body;
+    knex('posts').returning('id').update(data).then(id=>{
+        return res.status(200).json(id);
+    });
+    
+})
 
 // //Create User
 // app.post('/users', (req,res)=>{
