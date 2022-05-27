@@ -4,11 +4,17 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 
-
+const pads = {
+    gap :2,
+    margin: 2
+}
 
 const outerGrid = {
-    gap :2,
-    border: 1
+   
+    border: 1,
+    borderRadius: 2,
+    maxWidth: 600,
+    
   }
 
 const Post=({showFullFn,updateFn,deleteFn,entry})=> {
@@ -18,27 +24,34 @@ const Post=({showFullFn,updateFn,deleteFn,entry})=> {
 
     return (<Grid
             container
-            sx={outerGrid}
+            sx={{...pads,...outerGrid,}}
             direction="column"
             justifyContent="center"
             alignItems="center"
             variant="outlined" >
-                <Grid container direction="row" 
+                <Grid container 
+                sx={pads}
+                direction="row" 
                 justifyContent="center"
-                alignItems="center"> 
+                alignItems="center"
+                > 
                     <TextField
                     id="title"
                     label="Title"
                     defaultValue={title}
+                    sx={{width:'68%'}}
                     InputProps={{
                         readOnly: true,
                     }}/>
-                    <Typography>{stamp}</Typography>        
+                    <Typography sx={{width:'28%'}}>{stamp}</Typography>        
                 </Grid> 
                         
                 <TextField 
                     id="content" 
                     label="Content" 
+                    multiline
+                    fillWidth
+                    sx={{...pads, width: '90%'}}
                     variant="outlined"                     
                     defaultValue={content}
                     InputProps={{
