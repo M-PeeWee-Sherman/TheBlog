@@ -32,7 +32,7 @@ app.get('/posts', (req,res)=>{
  app.post('/posts', (req,res)=>{
     let data = req.body;
     knex('posts').returning('id').insert(data).then(id=>{
-        return res.status(200).json(id);
+        return res.status(201).json(id);
     });
     
 })
@@ -41,7 +41,7 @@ app.get('/posts', (req,res)=>{
 app.put('/posts', (req,res)=>{
     let data = req.body;
     knex('posts').returning('id').update(data).then(id=>{
-        return res.status(200).json(id);
+        return res.status(201).json(id);
     });
     
 })
