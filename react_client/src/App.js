@@ -1,23 +1,14 @@
 import logo from './logo.svg';
+import Post from './Components/Post'
 import './App.css';
 
 function App() {
+  let blank = ()=>{};
+  let temp = {id:'1', users_id: '1',stamp:'10 Mar 2022',title:'alpha Intro',content:'alpha Intro Content'};
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      <Post showFullFn={blank} updateFn={blank} deleteFn={blank} entry={temp}/>
     </div>
   );
 }
