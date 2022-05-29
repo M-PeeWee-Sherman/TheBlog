@@ -4,7 +4,7 @@ import {SpinningCircles} from 'react-loading-icons'
 
 const PostList=({updateFn,deleteFn,entryList})=> {
     let compiledPosts = entryList.map((element)=>(
-        <Post updateFn={updateFn} deleteFn={deleteFn} entry={element}/>
+        <Post key={element.id} updateFn={updateFn} deleteFn={deleteFn} entry={element}/>
         ))
     if (entryList.length===0) {
         return(<SpinningCircles/>)
