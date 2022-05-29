@@ -1,8 +1,10 @@
 const express = require('express');
+var cors = require('cors')
 const app = express();
+app.use(cors());
 const port = 3001;
 
- const knex = require('knex')(require('./knexfile')['development']);
+const knex = require('knex')(require('./knexfile')['development']);
 
 app.get('/',(req,res)=>{
     res.status(200).json('Hello from root route');

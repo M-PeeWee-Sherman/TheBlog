@@ -18,9 +18,9 @@ const outerGrid = {
   }
 
 const Post=({updateFn,deleteFn,entry})=> {
-    const {id, users_id, stamp, orig_title, orig_content}=entry;
-    const [title, setTitle] = useState(orig_title);
-    const [content, setContent] = useState(orig_content);
+    const {id, users_id, stamp, title, content}=entry;
+    const [titleState, setTitleState] = useState(title);
+    const [contentState, setContentState] = useState(content);
 
 
     return (<Grid
@@ -39,7 +39,7 @@ const Post=({updateFn,deleteFn,entry})=> {
                     <TextField
                     id="title"
                     label="Title"
-                    defaultValue={title}
+                    defaultValue={titleState}
                     sx={{width:'68%'}}
                     InputProps={{
                         readOnly: true,
@@ -54,7 +54,7 @@ const Post=({updateFn,deleteFn,entry})=> {
                     fillWidth
                     sx={{...pads, width: '90%'}}
                     variant="outlined"                     
-                    defaultValue={content}
+                    defaultValue={contentState}
                     InputProps={{
                         readOnly: true,
                     }}
