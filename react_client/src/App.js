@@ -12,14 +12,17 @@ function App() {
       list.push({...temp});
   }
   let blank = ()=>{};
-  let submitUpdate = ({id, users_id, content, title})=>{
+  let submitUpdate = (updateEntry)=>{
     const stamp = new Date().toUTCString();
+    let tempObj = { users_id: '1',title:'alphaNEW',content:'alpha NEW'};
+    let bodyData = {id:updateEntry.id, users_id:updateEntry.users_id,stamp:stamp,title:updateEntry.title,content:updateEntry.content};
+    //window.alert(JSON.stringify({id:updateEntry.id, users_id:updateEntry.users_id,stamp:stamp,title:updateEntry.title,content:updateEntry.content}))
     fetch("http://localhost:3001/posts", {
       method: "POST",
-      headers: {'Content-Type': 'application/json'}, 
-      body: JSON.stringify({id, users_id,stamp,title,content})
-    })
-      .then(updateFn());
+      headers: {"content-type": "application/json"},
+      body: JSON.stringify(bodyData)
+        
+    }).then(updateFn());
   }
   return (
     <div className="App">

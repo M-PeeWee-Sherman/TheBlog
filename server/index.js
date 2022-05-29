@@ -32,11 +32,13 @@ app.get('/posts', (req,res)=>{
 
  //Update Post
  app.post('/posts', (req,res)=>{
+    if (req.body){
     let data = req.body;
-    knex('posts').returning('id').insert(data).then(id=>{
+    console.log("Body:" +req.body);
+    knex('posts').insert(data).then(id=>{
         return res.status(201).json(id);
     });
-    
+    }else{console.log("Request Body is Null")}
 })
 
  //Update Post
