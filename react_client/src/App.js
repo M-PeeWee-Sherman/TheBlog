@@ -18,11 +18,13 @@ function App() {
     let bodyData = {id:updateEntry.id, users_id:updateEntry.users_id,stamp:stamp,title:updateEntry.title,content:updateEntry.content};
     //window.alert(JSON.stringify({id:updateEntry.id, users_id:updateEntry.users_id,stamp:stamp,title:updateEntry.title,content:updateEntry.content}))
     fetch("http://localhost:3001/posts", {
-      method: "POST",
+      method: "PUT",
       headers: {"content-type": "application/json"},
       body: JSON.stringify(bodyData)
         
-    }).then(updateFn());
+    }).then((res)=>{
+     window.alert(res.body);
+     updateFn()});
   }
   return (
     <div className="App">

@@ -2,6 +2,13 @@ const express = require('express');
 var cors = require('cors')
 const app = express();
 app.use(cors());
+var bodyParser = require('body-parser');
+
+// configure the app to use bodyParser()
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
 const port = 3001;
 
 const knex = require('knex')(require('./knexfile')['development']);
