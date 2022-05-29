@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, {  useState } from "react";
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -17,9 +17,10 @@ const outerGrid = {
     
   }
 
-const Post=({showFullFn,updateFn,deleteFn,entry})=> {
-    const {id, users_id, stamp, title, content}=entry;
-    //const [fullPosts, setFullPosts] = useState(posts);
+const Post=({updateFn,deleteFn,entry})=> {
+    const {id, users_id, stamp, orig_title, orig_content}=entry;
+    const [title, setTitle] = useState(orig_title);
+    const [content, setContent] = useState(orig_content);
 
 
     return (<Grid
