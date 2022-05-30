@@ -25,9 +25,18 @@ function App() {
     }).then((res)=>{
      updateFn()});
   }
+
+  let deleteEntry=(id)=>{
+    //console.log(`id is ${id}`)
+    fetch(`http://localhost:3001/posts/${id}`, {
+      method: "DELETE", 
+    }).then((res)=>{
+     updateFn()});
+  }
+
   return (
     <div className="App">
-      <PostList updateFn={submitUpdate} deleteFn={blank} entryList={fullList}/>
+      <PostList updateFn={submitUpdate} deleteFn={deleteEntry} entryList={fullList}/>
     </div>
   );
 }

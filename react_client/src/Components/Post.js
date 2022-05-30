@@ -94,7 +94,12 @@ const Post=({updateFn,deleteFn,entry})=> {
                                 updateFn({id, users_id, content:contentState, title:titleState});
                             }}
                             >Submit</Button></Box>
-                    <Button>Delete</Button> 
+                    <Button
+                            onClick={(e)=>{
+                                e.preventDefault();
+                                deleteFn(id);
+                            }}
+                    >Delete</Button> 
                 </Grid>
             </Grid>)
 }

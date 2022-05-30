@@ -60,6 +60,16 @@ app.put('/posts', (req,res)=>{
     }else{console.log("Request PUT Body is Null")}
 })
 
+app.delete('/posts/:id', (req,res)=>{
+    let id = req.params.id;
+    //console.log(`Received request to delete ${id}`)
+    
+    knex('posts').where({id}).del().then(()=>{
+        return res.status(201).json(id);
+    });
+
+})
+
 // //Create User
 // app.post('/users', (req,res)=>{
 
@@ -70,9 +80,7 @@ app.put('/posts', (req,res)=>{
 
 // })
 
-// app.delete('/posts/:id', (req,res)=>{
 
-// })
 
 // app.delete('/posts/:id', (req,res)=>{
 
