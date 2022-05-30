@@ -42,19 +42,22 @@ app.get('/posts', (req,res)=>{
     if (req.body){
     let data = req.body;
     console.log("Body:" +req.body);
-    knex('posts').insert(data).then(id=>{
+    knex('posts').returning('id').insert(data).then(id=>{
         return res.status(201).json(id);
     });
-    }else{console.log("Request Body is Null")}
+    }else{console.log("Request POST Body is Null")}
 })
 
  //Update Post
 app.put('/posts', (req,res)=>{
-    let data = req.body;
-    knex('posts').returning('id').update(data).then(id=>{
+    if (req.body){
+        let id = req.body.id;
+        let data = req.body;
+        delete data.id;
+    knex('posts').where({id}).update(data).then(()=>{
         return res.status(201).json(id);
     });
-    
+    }else{console.log("Request PUT Body is Null")}
 })
 
 // //Create User

@@ -23,7 +23,6 @@ function App() {
       body: JSON.stringify(bodyData)
         
     }).then((res)=>{
-     window.alert(res.body);
      updateFn()});
   }
   return (
