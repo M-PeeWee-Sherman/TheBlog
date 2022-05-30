@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, {useEffect,  useState } from "react";
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -19,15 +19,32 @@ const outerGrid = {
   }
 
 const Post=({updateFn,deleteFn,entry})=> {
+    
+    
     const {id, users_id, stamp, title, content}=entry;
+
     const [titleState, setTitleState] = useState(title);
     const [contentState, setContentState] = useState(content);
     const editFields = [{label:"Edit",readOnly:true,display:"none"},{label:"Cancel",readOnly:false,display:"block"}]
     const [editState, setEditState] = useState(0);
+    const [expanded,setExpanded] = useState("Expand");
+
+    useEffect(()=>{
+        let str = content;
+        
+        if(str.length>100 && expanded==="Expand"&& editFields[editState].readOnly){
+            setContentState(`${str.slice(0,100)}...`);
+        }
+        else{
+            setContentState(str);
+        }
+    }, [content, expanded, editState,editFields])
+    
 
     let handleInputTitleChange=(e)=>{
         setTitleState(e.target.value);
     }
+
     let handleInputContentChange=(e)=>{
         setContentState(e.target.value);
     }
@@ -74,13 +91,22 @@ const Post=({updateFn,deleteFn,entry})=> {
                 <Grid container direction="row" 
                     justifyContent="center"
                     alignItems="center"> 
-                    <Button>Expand</Button>
+                    <Button
+                        onClick={(e)=>{
+                            e.preventDefault();
+                            if (expanded==="Expand"){
+                                setExpanded("Contract")}
+                            else{
+                                setExpanded("Expand") 
+                            };
+                        }}
+                    >{expanded}</Button>
                     <Button id={`EditButton_${id}`} 
                         onClick={(e)=>{
                         e.preventDefault();
                         
                         if(editState===0){
-                            setEditState(1)
+                            setEditState(1);
                         }else{
                             setContentState(content);
                             setTitleState(title);

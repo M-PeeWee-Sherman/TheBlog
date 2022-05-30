@@ -88,6 +88,8 @@ const Post=({users_id, createFn})=> {
                             onClick={(e)=>{
                                 e.preventDefault();
                                 createFn({users_id, content:contentState, title:titleState});
+                                setContentState("");
+                                setTitleState("");
                                 handleClose();
                             }}
                             >Submit</Button>
