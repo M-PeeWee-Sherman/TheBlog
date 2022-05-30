@@ -39,6 +39,7 @@ const Post=({updateFn,deleteFn,entry})=> {
             justifyContent="center"
             alignItems="center"
             variant="outlined" >
+                <Typography>{`${entry.user_info.username} Remarked:`}</Typography>
                 <Grid container 
                 sx={pads}
                 direction="row" 

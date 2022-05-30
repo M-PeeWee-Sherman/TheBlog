@@ -7,7 +7,8 @@ import Modal from '@mui/material/Modal';
 
 const pads = {
     gap :2,
-    margin: 2
+    margin: 2,
+    bgcolor:"lightblue"
 }
 
 const outerGrid = {
@@ -38,12 +39,14 @@ const Post=({users_id, createFn})=> {
     }
 
     return (
-        <React.Fragment>
+        <div align="center">
         <Button onClick={handleOpen}>Create Post</Button>
         <Modal
+            
             hideBackdrop
             open={open}
-            onClose={handleClose}>
+            onClose={handleClose}
+            style={{display:'flex',alignItems:'top',justifyContent:'center'}}>
             <Grid
             container
             sx={{...pads,...outerGrid,}}
@@ -52,7 +55,7 @@ const Post=({users_id, createFn})=> {
             alignItems="center"
             variant="outlined" >
                 <Grid container 
-                sx={pads}
+                sx={{gap:2}}
                 direction="row" 
                 justifyContent="center"
                 alignItems="center"
@@ -62,8 +65,8 @@ const Post=({users_id, createFn})=> {
                     label="Title"
                     onChange={handleInputTitleChange}
                     value={titleState}
-                    sx={{width:'68%'}}/>
-                    <Typography sx={{width:'28%'}}>{stamp}</Typography>        
+                    sx={{width:'66%'}}/>
+                    <Typography sx={{width:'26%', display: 'block' }}>{stamp}</Typography>        
                 </Grid> 
                         
                 <TextField 
@@ -85,6 +88,7 @@ const Post=({users_id, createFn})=> {
                             onClick={(e)=>{
                                 e.preventDefault();
                                 createFn({users_id, content:contentState, title:titleState});
+                                handleClose();
                             }}
                             >Submit</Button>
                     <Button
@@ -95,7 +99,7 @@ const Post=({users_id, createFn})=> {
                     >Cancel</Button> 
                 </Grid>
             </Grid></Modal>
-            </React.Fragment>)
+            </div>)
 }
 
 export default Post;
