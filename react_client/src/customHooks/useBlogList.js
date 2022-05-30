@@ -1,20 +1,37 @@
 import React, { useState, useEffect } from 'react';
 
 const useBloglist = () => {
-    const [fullList, setFullList] = useState([]);
+    const [postList, setPostList] = useState([]);
+    const [nameList, setNameList] = useState([]);
     const [update, setUpdate] = useState(0);
     const updateFn = ()=>{setUpdate(update+1);};
     useEffect(() => {
-        let url = "http://localhost:3001/posts";
-        fetch(url)
-            .then((res) => res.json())
-            .then((data) => {
-      
-                setFullList(data);
-            });
+        let urlPosts = "http://localhost:3001/posts";
+        let postAnswer = fetch(urlPosts)
+        .then((res) => res.json())
+        .then((data) => {
+  
+            setPostList(data);
+        });
+        let urlNames = "http://localhost:3001/users";
+        let nameAnswer = fetch(urlNames)
+        .then((res) => res.json())
+        .then((data) => {
+  
+            setNameList(data);
+        });
+        Promise.all([postAnswer, nameAnswer]).then(()=>{
+            let mapNames = new Map();
+            nameList.forEach((entry)=>{
+                mapNames(entry.id,{firstname:entry.firstname, lastname:entry.lastname, username:entry.username})
+            })
+            
+        })
     }, [update]);
 
-    return [fullList, setFullList, updateFn];
+
+
+    return [combinedList, setCombinedList, updateFn];
 }
 
 export default useBloglist;

@@ -70,6 +70,12 @@ app.delete('/posts/:id', (req,res)=>{
 
 })
 
+//Get User Details
+app.get('/posts/:users_id', (req,res)=>{
+    let users_id = req.params.users_id;
+    knex('users').where({usersi_id}).select(['firstname','lastname','username']).then((data)=>res.status(200).json(data))
+}
+
 // //Create User
 // app.post('/users', (req,res)=>{
 
@@ -80,9 +86,7 @@ app.delete('/posts/:id', (req,res)=>{
 
 // })
 
-
-
-// app.delete('/posts/:id', (req,res)=>{
+// app.delete('/users/:id', (req,res)=>{
 
 // })
 
