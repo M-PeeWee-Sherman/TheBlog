@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import useUsersList from './useUsersList';
 
 // const useNameList = {
 //      useEffect(()=>{
@@ -8,7 +9,7 @@ import React, { useState, useEffect } from 'react';
 
 const useBloglist = () => {
     const [postList, setPostList] = useState([]);
-    const [nameList, setNameList] = useState([]);
+    const [nameList, setNameList, updateUsers] = useUsersList();
     const [combinedList, setCombinedList] = useState([]);
     const [update, setUpdate] = useState(0);
     const updateBlogFn = ()=>{setUpdate(update+1);};
@@ -22,18 +23,7 @@ const useBloglist = () => {
   
             setPostList(data);
         });
-    },[update])
-
-    //pull user name lookup list
-
-    useEffect(()=>{
-        let urlNames = "http://localhost:3001/users";
-        fetch(urlNames)
-        .then((res) => res.json())
-        .then((data) => {
-            setNameList(data);
-        });
-    })
+    },[update])  
 
     useEffect(() => {     
             let mapNames = new Map();

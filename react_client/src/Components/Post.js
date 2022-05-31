@@ -38,7 +38,7 @@ const Post=({updateFn,deleteFn,entry})=> {
         else{
             setContentState(str);
         }
-    }, [content, expanded, editState,editFields])
+    }, [content, expanded, editState])
     
 
     let handleInputTitleChange=(e)=>{
@@ -119,6 +119,7 @@ const Post=({updateFn,deleteFn,entry})=> {
                             onClick={(e)=>{
                                 e.preventDefault();
                                 updateFn({id, users_id, content:contentState, title:titleState});
+                                setEditState(0);
                             }}
                             >Submit</Button></Box>
                     <Button
