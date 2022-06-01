@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import baseURL from '../baseURL'
 import useUsersList from './useUsersList';
 
 
@@ -12,7 +13,7 @@ const useBloglist = () => {
 
     //pull total blog list    
     useEffect(()=>{
-        let urlPosts = "http://localhost:3001/posts";
+        let urlPosts = `${baseURL}posts`;
         fetch(urlPosts)
         .then((res) => res.json())
         .then((data) => {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import baseURL from '../baseURL'
 
 const useUsersList=()=>{
     const [nameList, setNameList] = useState([]);
@@ -7,7 +8,7 @@ const useUsersList=()=>{
 
     //pull user name lookup list
     useEffect(()=>{
-        let urlNames = "http://localhost:3001/users";
+        let urlNames = `${baseURL}users`;
         fetch(urlNames)
         .then((res) => res.json())
         .then((data) => {

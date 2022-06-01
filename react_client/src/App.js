@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import baseURL from './baseURL';
 import useUsersList from './customHooks/useUsersList';
 import useBloglist from './customHooks/useBlogList'
 import CreatePost from './Components/CreatePost'
@@ -23,12 +24,14 @@ function App() {
     e.preventDefault();
     setOpenRegister(true);  }
   
+  let registerUser
+  
   let submitUpdate = (updateEntry)=>{
     const stamp = new Date().toUTCString();
     
     let bodyData = {id:updateEntry.id, users_id:updateEntry.users_id,stamp:stamp,title:updateEntry.title,content:updateEntry.content};
     //window.alert(JSON.stringify({id:updateEntry.id, users_id:updateEntry.users_id,stamp:stamp,title:updateEntry.title,content:updateEntry.content}))
-    fetch("http://localhost:3001/posts", {
+    fetch(`${baseURL}posts`, {
       method: "PUT",
       headers: {"content-type": "application/json"},
       body: JSON.stringify(bodyData)
@@ -39,7 +42,7 @@ function App() {
 
   let deleteEntry=(id)=>{
     //console.log(`id is ${id}`)
-    fetch(`http://localhost:3001/posts/${id}`, {
+    fetch(`${baseURL}posts/${id}`, {
       method: "DELETE", 
     }).then((res)=>{
      updateFn()});
@@ -49,7 +52,7 @@ function App() {
 
     let bodyData = { users_id:newEntry.users_id,stamp:newEntry.stamp,title:newEntry.title,content:newEntry.content};
     //window.alert(JSON.stringify({id:updateEntry.id, users_id:updateEntry.users_id,stamp:stamp,title:updateEntry.title,content:updateEntry.content}))
-    fetch("http://localhost:3001/posts", {
+    fetch(`${baseURL}posts`, {
       method: "POST",
       headers: {"content-type": "application/json"},
       body: JSON.stringify(bodyData)
