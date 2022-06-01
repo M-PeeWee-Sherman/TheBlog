@@ -10,6 +10,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import AuthContext from './Context';
 import './App.css';
 
 function App() {
@@ -20,9 +21,16 @@ function App() {
   const [openRegister, setOpenRegister] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
 
+  const authObj = useState({AuthId:2,PWHash:""});
+  
+
   let openRegistration = (e) =>{
     e.preventDefault();
     setOpenRegister(true);  }
+
+  let openLog = (e) =>{
+      e.preventDefault();
+      setOpenLogin(true);  }
   
   
   let submitUpdate = (updateEntry)=>{
@@ -60,6 +68,10 @@ function App() {
      updateFn()});
   }
 
+  let loginUser = (credentials)=>{
+
+  }
+  
   let createUser = (newEntry)=>{
     //window.alert("Create Triggered")
     let bodyData = { 
@@ -99,6 +111,7 @@ function App() {
   
   return (
     <div className="App">
+      <AuthContext.Provider value={authObj}>
       <Grid container spacing={2}
                   direction="row"
                   justifyContent="center"
@@ -123,13 +136,16 @@ function App() {
             </NativeSelect>
           </Grid>
             <Grid container direction="column">
-            <Button onClick={openRegistration}>Register</Button>
-            <Registration open={openRegister} setOpen={setOpenRegister} createFn={createUser}></Registration>
-            <Button>Login</Button>
+            <Button onClick={openRegistration}>Register</Button>            
+            <Button onClick={openLog}>Login</Button>
+    
             </Grid>
         </Grid>
+        <Registration open={openRegister} setOpen={setOpenRegister} createFn={createUser}></Registration>
+        <Registration open={openLogin} setOpen={setOpenLogin} createFn={loginUser}></Registration>
       <CreatePost users_id={1} createFn={createEntry}/>
       <PostList updateFn={submitUpdate} deleteFn={deleteEntry} entryList={filteredList}/>
+      </AuthContext.Provider>
     </div>
   );
 }

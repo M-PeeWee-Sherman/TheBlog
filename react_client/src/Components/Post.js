@@ -1,9 +1,10 @@
-import React, {useEffect,  useState } from "react";
+import React, {useEffect,  useState, useContext } from "react";
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import AuthContext from "../Context";
 
 const pads = {
     gap :2,
@@ -19,8 +20,7 @@ const outerGrid = {
   }
 
 const Post=({updateFn,deleteFn,entry})=> {
-    
-    
+    const [ auth, setAuth ] = useContext(AuthContext);
     const {id, users_id, stamp, title, content}=entry;
 
     const [titleState, setTitleState] = useState(title);
@@ -28,6 +28,13 @@ const Post=({updateFn,deleteFn,entry})=> {
     const editFields = [{label:"Edit",readOnly:true,display:"none"},{label:"Cancel",readOnly:false,display:"block"}]
     const [editState, setEditState] = useState(0);
     const [expanded,setExpanded] = useState("Expand");
+    const [disableEdit, setDisableEdit] = useState(true);
+
+    useEffect(()=>{
+        if (auth){
+            setDisableEdit(!(parseInt(users_id)===parseInt(auth.AuthId)));
+        }
+    },[auth])
 
     useEffect(()=>{
         let str = content;
@@ -102,6 +109,7 @@ const Post=({updateFn,deleteFn,entry})=> {
                         }}
                     >{expanded}</Button>
                     <Button id={`EditButton_${id}`} 
+                        disabled={disableEdit}
                         onClick={(e)=>{
                         e.preventDefault();
                         
@@ -123,6 +131,7 @@ const Post=({updateFn,deleteFn,entry})=> {
                             }}
                             >Submit</Button></Box>
                     <Button
+                            disabled={disableEdit}
                             onClick={(e)=>{
                                 e.preventDefault();
                                 deleteFn(id);
