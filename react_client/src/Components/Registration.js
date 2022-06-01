@@ -1,10 +1,9 @@
 //https://codesandbox.io/s/signupregistration-form-reactmaterialui-fr71m?file=/src/components/Registration.jsx:0-7111
-import React, { useState, Component } from "react";
+import React, { useState, useEffect} from "react";
 //import { withStyles } from "@material-ui/core/styles";
 //import { register } from "./RegistrationStyles";
 import InputAdornment from '@mui/material/InputAdornment';
 
-import CssBaseline from "@mui/material//CssBaseline";
 import Paper from "@mui/material/Paper";
 import Avatar from "@mui/material/Avatar";
 import { FormControl, Input, InputLabel, Button } from "@mui/material/";
@@ -31,7 +30,7 @@ const Registration = ({open, setOpen})=>{
     const [hidePassword, setHidePassword] = useState( true)
     const [error, setError] = useState( null)
     const [errorOpen, setErrorOpen] = useState( false)
-
+    const [entryIsValid, setEntryIsValid] = useState(false);
 
   
   const handleClose = () => {
@@ -51,22 +50,26 @@ const Registration = ({open, setOpen})=>{
     }));
   };
 
-  const passwordMatch = () => this.state.password === this.state.passwordConfirm;
+
 
   const showPassword = () => {
-    setHidePassword(() => ({ hidePassword: !hidePassword }));
+    setHidePassword( !hidePassword );
   };
 
-  const isValid = () => {
+  
+  useEffect(()=>{
+
     if (userParams.username === "") {
-      return false;
+      setEntryIsValid(true);
+    }else{
+    setEntryIsValid(false);
     }
-    return true;
-  };
+
+  },[userParams]) 
   
   const submitRegistration = e => {
     e.preventDefault();
-    if (!passwordMatch()) {
+    if (!(userParams.password === userParams.passwordConfirm)) {
         setErrorOpen(true);
         setError("Passwords don't match");
     }
@@ -77,7 +80,7 @@ const Registration = ({open, setOpen})=>{
       lastname:userParams.lastname,
       password: userParams.password //update to hash on later revision
     };
-    window.alert("this.props.newUserCredentials", newUserCredentials);
+    window.alert(`newUserCredential: ${newUserCredentials.username}`);
     //dispath to userActions
   };
 
@@ -205,7 +208,7 @@ const Registration = ({open, setOpen})=>{
               />
             </FormControl>
             <Button
-              disabled={isValid()}
+              disabled={entryIsValid}
               disableRipple
               fullWidth
               variant="outlined"
