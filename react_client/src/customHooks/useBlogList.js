@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useUsersList from './useUsersList';
 
-// const useNameList = {
-//      useEffect(()=>{
 
-//      })
-// }
 
 const useBloglist = () => {
     const [postList, setPostList] = useState([]);

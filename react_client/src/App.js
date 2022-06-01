@@ -1,12 +1,18 @@
-
+import React, { useState, useEffect } from 'react';
+import useUsersList from './customHooks/useUsersList';
 import useBloglist from './customHooks/useBlogList'
 import CreatePost from './Components/CreatePost'
 import PostList from './Components/PostList'
+import NativeSelect from '@mui/material/NativeSelect';
+import InputLabel from '@mui/material/InputLabel';
 import './App.css';
 
 function App() {
+  const [nameList, setNameList, updateUsers] = useUsersList();
+  const [filterNameChoices, setFilteredNameChoices] = useState([]);
   const [fullList, setFullList, updateFn] = useBloglist();
-  
+  const [filteredList, setFilteredList] = useState([]); //filtered blog entries
+
   let submitUpdate = (updateEntry)=>{
     const stamp = new Date().toUTCString();
     
@@ -42,12 +48,39 @@ function App() {
      updateFn()});
   }
 
+  let [currentUserView, setCurrentUserView]= useState({id:0,username:'View All'}); //asign user id
 
-
+  const handleFilterChange = (event) => {
+    let fullObject = filterNameChoices.filter((el)=>(parseInt(el.id)===parseInt(event.target.value)))
+    if(parseInt(event.target.value)===1){window.alert(`${filterNameChoices[1].id} ?= ${event.target.value} ${fullObject.length} ${Object.keys(fullObject)} ${fullObject.id}`)}
+    setCurrentUserView({...fullObject[0]});
+  };
+  
+  useEffect(()=>{
+    setFilteredNameChoices([{id:0,username:'View All'}].concat([...nameList]));
+  },[nameList])
+  
+  useEffect(()=>{   
+    setFilteredList([].concat(fullList.filter((element)=>(((currentUserView.id===0) || (element.users_id===currentUserView.id))))));
+  },[fullList, currentUserView])
+  
   return (
     <div className="App">
+      <InputLabel variant="standard" htmlFor="Filter_Dropdown">
+        Author Filter
+      </InputLabel>
+      <NativeSelect
+        defaultValue={currentUserView.id}
+        inputProps={{
+          name: 'filter',
+          id: 'Filter_Dropdown',
+        }}
+        onChange={handleFilterChange}>
+          {filterNameChoices.map((el)=>(<option key={`option_${el.id}`} value={el.id}>{el.username}</option>))}
+
+        </NativeSelect>
       <CreatePost users_id={1} createFn={createEntry}/>
-      <PostList updateFn={submitUpdate} deleteFn={deleteEntry} entryList={fullList}/>
+      <PostList updateFn={submitUpdate} deleteFn={deleteEntry} entryList={filteredList}/>
     </div>
   );
 }
