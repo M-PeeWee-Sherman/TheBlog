@@ -17,7 +17,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import CloseIcon from "@mui/icons-material/Close";
 import Modal from '@mui/material/Modal';
 
-const Registration = ({open, setOpen})=>{
+const Registration = ({open, setOpen,createFn})=>{
 
     const [userParams, setUserParams] = useState({
       username:"",
@@ -74,14 +74,17 @@ const Registration = ({open, setOpen})=>{
         setError("Passwords don't match");
     }
 
-    const newUserCredentials = {
+    let newUserCredentials = {
       username: userParams.username,
       firstname:userParams.firstname,
       lastname:userParams.lastname,
       password: userParams.password //update to hash on later revision
     };
-    window.alert(`newUserCredential: ${newUserCredentials.username}`);
+    
     //dispath to userActions
+    createFn(newUserCredentials);
+
+    handleClose();
   };
 
     return ( <Modal

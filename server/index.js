@@ -1,5 +1,5 @@
 const express = require('express');
-var cors = require('cors')
+var cors = require('cors');
 const app = express();
 app.use(cors());
 var bodyParser = require('body-parser');
@@ -41,7 +41,7 @@ app.get('/posts', (req,res)=>{
  app.post('/posts', (req,res)=>{
     if (req.body){
     let data = req.body;
-    console.log("Body:" +req.body);
+    //console.log("Body:" +req.body);
     knex('posts').returning('id').insert(data).then(id=>{
         return res.status(201).json(id);
     });
@@ -77,10 +77,14 @@ app.get('/users', (req,res)=>{
     .then((data)=>res.status(200).json(data));
 });
 
-// //Create User
-// app.post('/users', (req,res)=>{
-
-// })
+//Create User
+app.post('/users', (req,res)=>{
+    //console.log(`Post User Pinged for creation of ${req.body.username}`)
+    let data = req.body;
+    knex('users').returning('id').insert(data).then((id)=>{
+        //console.log(`id ${id} added`)
+        return res.status(201).json(id);})
+});
 
 // //Update User
 // app.post('/users/:id', (req,res)=>{
@@ -91,4 +95,4 @@ app.get('/users', (req,res)=>{
 
 // })
 
-app.listen(port, ()=>console.log(`Express server listening on port ${port}`))
+app.listen(port, ()=>console.log(`Express server listening on port ${port}`));

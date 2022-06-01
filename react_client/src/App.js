@@ -24,7 +24,6 @@ function App() {
     e.preventDefault();
     setOpenRegister(true);  }
   
-  let registerUser
   
   let submitUpdate = (updateEntry)=>{
     const stamp = new Date().toUTCString();
@@ -59,6 +58,27 @@ function App() {
         
     }).then((res)=>{
      updateFn()});
+  }
+
+  let createUser = (newEntry)=>{
+    //window.alert("Create Triggered")
+    let bodyData = { 
+      firstname:newEntry.firstname,
+      lastname:newEntry.lastname,
+      username:newEntry.username,
+      password:newEntry.password,
+    }
+    
+    //window.alert(JSON.stringify({id:updateEntry.id, users_id:updateEntry.users_id,stamp:stamp,title:updateEntry.title,content:updateEntry.content}))
+    fetch(`${baseURL}users`, {
+      method: "POST",
+      headers: {"content-type": "application/json"},
+      body: JSON.stringify(bodyData)
+        
+    }).then((res)=>{
+   
+      updateUsers();
+    });
   }
 
   let [currentUserView, setCurrentUserView]= useState({id:0,username:'View All'}); //asign user id
@@ -104,7 +124,7 @@ function App() {
           </Grid>
             <Grid container direction="column">
             <Button onClick={openRegistration}>Register</Button>
-            <Registration open={openRegister} setOpen={setOpenRegister}></Registration>
+            <Registration open={openRegister} setOpen={setOpenRegister} createFn={createUser}></Registration>
             <Button>Login</Button>
             </Grid>
         </Grid>

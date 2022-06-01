@@ -14,7 +14,7 @@ const useUsersList=()=>{
         .then((data) => {
             setNameList(data);
         });
-    })
+    },[update])
 
     return [nameList, setNameList, updateUsers];
 
