@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import AuthContext from './Context';
 import './App.css';
+import bcrypt from 'bcrypt';
 
 function App() {
   const [nameList, setNameList, updateUsers] = useUsersList();
@@ -22,7 +23,6 @@ function App() {
   const [openLogin, setOpenLogin] = useState(false);
 
   const authObj = useState({AuthId:2,PWHash:""});
-  
 
   let openRegistration = (e) =>{
     e.preventDefault();
@@ -33,6 +33,9 @@ function App() {
       setOpenLogin(true);  }
   
   
+
+
+
   let submitUpdate = (updateEntry)=>{
     const stamp = new Date().toUTCString();
     
@@ -74,23 +77,30 @@ function App() {
   
   let createUser = (newEntry)=>{
     //window.alert("Create Triggered")
-    let bodyData = { 
-      firstname:newEntry.firstname,
-      lastname:newEntry.lastname,
-      username:newEntry.username,
-      password:newEntry.password,
-    }
-    
-    //window.alert(JSON.stringify({id:updateEntry.id, users_id:updateEntry.users_id,stamp:stamp,title:updateEntry.title,content:updateEntry.content}))
-    fetch(`${baseURL}users`, {
-      method: "POST",
-      headers: {"content-type": "application/json"},
-      body: JSON.stringify(bodyData)
+    const saltRounds = 10;
+    bcrypt.genSalt(saltRounds, function(err, salt){
+      bcrypt.hash(newEntry.password, salt, function(err, hash){
+        let bodyData = { 
+          firstname:newEntry.firstname,
+          lastname:newEntry.lastname,
+          username:newEntry.username,
+          password:hash,
+        }
         
-    }).then((res)=>{
-   
-      updateUsers();
-    });
+        //window.alert(JSON.stringify({id:updateEntry.id, users_id:updateEntry.users_id,stamp:stamp,title:updateEntry.title,content:updateEntry.content}))
+        fetch(`${baseURL}users`, {
+          method: "POST",
+          headers: {"content-type": "application/json"},
+          body: JSON.stringify(bodyData)
+            
+        }).then((res)=>{
+       
+          updateUsers();
+        });
+      })
+    })
+    
+
   }
 
   let [currentUserView, setCurrentUserView]= useState({id:0,username:'View All'}); //asign user id
