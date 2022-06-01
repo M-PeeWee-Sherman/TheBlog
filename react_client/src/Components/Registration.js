@@ -1,5 +1,5 @@
 //https://codesandbox.io/s/signupregistration-form-reactmaterialui-fr71m?file=/src/components/Registration.jsx:0-7111
-import React, { Component } from "react";
+import React, { useState, Component } from "react";
 //import { withStyles } from "@material-ui/core/styles";
 //import { register } from "./RegistrationStyles";
 import InputAdornment from '@mui/material/InputAdornment';
@@ -18,151 +18,152 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import CloseIcon from "@mui/icons-material/Close";
 import Modal from '@mui/material/Modal';
 
-class Registration extends Component {
-  state = {
-    username: "",
-    firstname:"",
-    lastname:"",
-    password: "",
-    passwordConfirm: "",
-    hidePassword: true,
-    error: null,
-    errorOpen: false,
-    open: false
+const Registration = ({open, setOpen})=>{
+
+    const [userParams, setUserParams] = useState({
+      username:"",
+      firstname:"",
+      lastname:"",
+      password:"",
+      passwordConfirm:""
+    })
+    
+    const [hidePassword, setHidePassword] = useState( true)
+    const [error, setError] = useState( null)
+    const [errorOpen, setErrorOpen] = useState( false)
+
+
+  
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const errorClose = e => {
+    setErrorOpen(false)
   };
 
   
-  handleClose = () => {
-    this.props.setOpen(false)
+  const handleChange = e => {
+    setUserParams(() => ({
+      ...userParams,           // copy all other field/objects
+        [e.target.getAttribute('name')]: e.target.value    // overwrite the value of the field to update
+      
+    }));
   };
 
-  errorClose = e => {
-    this.setState({
-      errorOpen: false
-    });
+  const passwordMatch = () => this.state.password === this.state.passwordConfirm;
+
+  const showPassword = () => {
+    setHidePassword(() => ({ hidePassword: !hidePassword }));
   };
 
-  handleChange = name => e => {
-    this.setState({
-      [name]: e.target.value
-    });
-  };
-
-  passwordMatch = () => this.state.password === this.state.passwordConfirm;
-
-  showPassword = () => {
-    this.setState(prevState => ({ hidePassword: !prevState.hidePassword }));
-  };
-
-  isValid = () => {
-    if (this.state.email === "") {
+  const isValid = () => {
+    if (userParams.username === "") {
       return false;
     }
     return true;
   };
   
-  submitRegistration = e => {
+  const submitRegistration = e => {
     e.preventDefault();
-    if (!this.passwordMatch()) {
-      this.setState({
-        errorOpen: true,
-        error: "Passwords don't match"
-      });
+    if (!passwordMatch()) {
+        setErrorOpen(true);
+        setError("Passwords don't match");
     }
+
     const newUserCredentials = {
-      email: this.state.email,
-      password: this.state.password,
-      passwordConfirm: this.state.passwordConfirm
+      username: userParams.username,
+      firstname:userParams.firstname,
+      lastname:userParams.lastname,
+      password: userParams.password //update to hash on later revision
     };
-    console.log("this.props.newUserCredentials", newUserCredentials);
+    window.alert("this.props.newUserCredentials", newUserCredentials);
     //dispath to userActions
   };
 
-  render() {
-    const { classes } = this.props;
     return ( <Modal
         hideBackdrop
-        open={this.props.open}
-        onClose={this.handleClose}>
-      <div className={classes.main}>
-        <CssBaseline />
+        open={open}
+        onClose={handleClose}>
+      <div className="Registration">
+        {/* <CssBaseline /> */}
 
-        <Paper className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <PeopleAltIcon className={classes.icon} />
+        <Paper className="paper">
+          <Avatar className="Avatar">
+            <PeopleAltIcon className="icon" />
           </Avatar>
           <form
-            className={classes.form}
-            onSubmit={() => this.submitRegistration}
+            className="form"
+            onSubmit={submitRegistration}
           >
             <FormControl required fullWidth margin="normal">
-              <InputLabel htmlFor="username" className={classes.labels}>
+              <InputLabel htmlFor="username" className="labels">
                 username
               </InputLabel>
               <Input
                 name="username"
                 type="username"
                 autoComplete="username"
-                className={classes.inputs}
+                className="inputs"
                 disableUnderline={true}
-                onChange={this.handleChange("username")}
+                onChange={handleChange}
               />
             </FormControl>
 
             <FormControl required fullWidth margin="normal">
-              <InputLabel htmlFor="firstname" className={classes.labels}>
+              <InputLabel htmlFor="firstname" className="labels">
                 First Name
               </InputLabel>
               <Input
                 name="firstname"
                 type="firstname"
                 autoComplete="firstname"
-                className={classes.inputs}
+                className="inputs"
                 disableUnderline={true}
-                onChange={this.handleChange("firstname")}
+                onChange={handleChange}
               />
             </FormControl>
 
             <FormControl required fullWidth margin="normal">
-              <InputLabel htmlFor="lastname" className={classes.labels}>
+              <InputLabel htmlFor="lastname" className="labels">
                 Last Name
               </InputLabel>
               <Input
                 name="lastname"
                 type="lastname"
                 autoComplete="lastname"
-                className={classes.inputs}
+                className="inputs"
                 disableUnderline={true}
-                onChange={this.handleChange("lastname")}
+                onChange={handleChange}
               />
             </FormControl>
 
             <FormControl required fullWidth margin="normal">
-              <InputLabel htmlFor="password" className={classes.labels}>
+              <InputLabel htmlFor="password" className="labels">
                 password
               </InputLabel>
               <Input
                 name="password"
                 autoComplete="password"
-                className={classes.inputs}
+                className="inputs"
                 disableUnderline={true}
-                onChange={this.handleChange("password")}
-                type={this.state.hidePassword ? "password" : "input"}
+                onChange={handleChange}
+                type={hidePassword ? "password" : "input"}
                 endAdornment={
-                  this.state.hidePassword ? (
+                  hidePassword ? (
                     <InputAdornment position="end">
                       <VisibilityOffIcon
                         fontSize="default"
-                        className={classes.passwordEye}
-                        onClick={this.showPassword}
+                        className="passwordEye"
+                        onClick={showPassword}
                       />
                     </InputAdornment>
                   ) : (
                     <InputAdornment position="end">
                       <VisibilityIcon
                         fontSize="default"
-                        className={classes.passwordEye}
-                        onClick={this.showPassword}
+                        className="passwordEye"
+                        onClick={showPassword}
                       />
                     </InputAdornment>
                   )
@@ -171,32 +172,32 @@ class Registration extends Component {
             </FormControl>
 
             <FormControl required fullWidth margin="normal">
-              <InputLabel htmlFor="passwordConfirm" className={classes.labels}>
+              <InputLabel htmlFor="passwordConfirm" className="labels">
                 Confirm password
               </InputLabel>
               <Input
                 name="passwordConfirm"
                 autoComplete="passwordConfirm"
-                className={classes.inputs}
+                className="inputs"
                 disableUnderline={true}
-                onClick={this.state.showPassword}
-                onChange={this.handleChange("passwordConfirm")}
-                type={this.state.hidePassword ? "password" : "input"}
+                onClick={showPassword}
+                onChange={handleChange}
+                type={hidePassword ? "password" : "input"}
                 endAdornment={
-                  this.state.hidePassword ? (
+                  hidePassword ? (
                     <InputAdornment position="end">
                       <VisibilityOffIcon
                         fontSize="default"
-                        className={classes.passwordEye}
-                        onClick={this.showPassword}
+                        className="passwordEye"
+                        onClick={showPassword}
                       />
                     </InputAdornment>
                   ) : (
                     <InputAdornment position="end">
                       <VisibilityIcon
                         fontSize="default"
-                        className={classes.passwordEye}
-                        onClick={this.showPassword}
+                        className="passwordEye"
+                        onClick={showPassword}
                       />
                     </InputAdornment>
                   )
@@ -204,13 +205,13 @@ class Registration extends Component {
               />
             </FormControl>
             <Button
-              disabled={!this.isValid()}
+              disabled={isValid()}
               disableRipple
               fullWidth
               variant="outlined"
-              className={classes.button}
+              className="button"
               type="submit"
-              onClick={this.submitRegistration}
+              onClick={submitRegistration}
             >
               Join
             </Button>
@@ -218,39 +219,39 @@ class Registration extends Component {
             disableRipple
             fullWidth
             variant="outlined"
-            className={classes.button}
+            className="button"
             type="submit"
-            onClick={this.handleClose}
+            onClick={handleClose}
                 >Cancel</Button>
           </form>
 
-          {this.state.error ? (
+          {error ? (
             <Snackbar
               variant="error"
-              key={this.state.error}
+              key={error}
               anchorOrigin={{
                 vertical: "bottom",
                 horizontal: "center"
               }}
-              open={this.state.errorOpen}
-              onClose={this.errorClose}
+              open={errorOpen}
+              onClose={errorClose}
               autoHideDuration={3000}
             >
               <SnackbarContent
-                className={classes.error}
+                className="error"
                 message={
                   <div>
                     <span style={{ marginRight: "8px" }}>
                       <ErrorIcon fontSize="large" color="error" />
                     </span>
-                    <span> {this.state.error} </span>
+                    <span> {error} </span>
                   </div>
                 }
                 action={[
                   <Icon
                     key="close"
                     aria-label="close"
-                    onClick={this.errorClose}
+                    onClick={errorClose}
                   >
                     <CloseIcon color="error" />
                   </Icon>
@@ -263,6 +264,6 @@ class Registration extends Component {
       </Modal>
     );
   }
-}
+
 
 export default Registration;

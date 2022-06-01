@@ -3,7 +3,7 @@ import useUsersList from './customHooks/useUsersList';
 import useBloglist from './customHooks/useBlogList'
 import CreatePost from './Components/CreatePost'
 import PostList from './Components/PostList'
-//import Registration from './Components/Registration'
+import Registration from './Components/Registration'
 import NativeSelect from '@mui/material/NativeSelect';
 import InputLabel from '@mui/material/InputLabel';
 import Grid from '@mui/material/Grid';
@@ -101,7 +101,7 @@ function App() {
           </Grid>
             <Grid container direction="column">
             <Button onClick={openRegistration}>Register</Button>
-            {/* <Registration open={openRegister} setOpen={setOpenRegister}></Registration> */}
+            <Registration open={openRegister} setOpen={setOpenRegister}></Registration>
             <Button>Login</Button>
             </Grid>
         </Grid>
