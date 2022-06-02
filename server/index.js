@@ -105,13 +105,14 @@ app.post('/login',(req,res)=>{
     let hash = bcrypt.hashSync(sentPW, salt);
     
     knex('users').where({username}).select('id','password').then((query)=>{
-        console.log(`password hash:${hash}`)
-        console.log(`${Object.keys(query[0])} passwordquery response:${query[0].password}`)
-        if (query[0].password && bcrypt.compareSync(sentPW, query[0].password)){
-            console.log(`It matches for user ${query[0].id}`)
-            return res.status(200).json({users_id:query[0].id})
+        //console.log(`password hash:${hash}`)
+        //console.log(`${Object.keys(query[0])} passwordquery response:${query[0].password}`)
+        if (query.length>0 && query[0].password && bcrypt.compareSync(sentPW, query[0].password)){
+            console.log(`It matches for user ${query[0].id}`);
+            return res.status(200).json({users_id:query[0].id});
         }else
         {
+            console.log(`No Match found`);
             return res.status(401).json({users_id:0})
         }
     })
