@@ -96,22 +96,28 @@ function App() {
   }
 
   let loginUser = (credentials)=>{
-    window.alert("Function Entered")
+   
     fetch(`${baseURL}login`, {
       method: "POST",
       headers: {"content-type": "application/json"},
       body: JSON.stringify(credentials)
-        
-    }).then((res)=>{
-      let idAnswer = res.body.id;
-      if (idAnswer===0){
+          
+    }).then(response => response.json())
+      .then((res)=>{
+      //   window.alert(res) 
+      // window.alert(Object.keys(res))
+      window.alert(res.body.users_id)
+      let idAnswer = parseInt(res.body.users_id);
+
+      if (idAnswer>0){
+        window.alert(`Answer ${idAnswer}`);
+        setAuthObj({AuthId:idAnswer,PW:credentials.password, username:credentials.username});
+        setLogButtonValue("Log Out");
+        changeView(idAnswer);
+        return true;
+      }else{
         window.alert("Incorrect username or password");
         return false;
-      }else{
-        setAuthObj({AuthId:res.body.id,PW:credentials.password, username:credentials.username});
-        setLogButtonValue("Log Out");
-        changeView(res.body.id);
-        return true;
       }
       
     });

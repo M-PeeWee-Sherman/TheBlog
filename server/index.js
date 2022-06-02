@@ -102,12 +102,14 @@ app.post('/login',(req,res)=>{
     var username = req.body.username;
     console.log(`received username:${username} and password:${sentPW}`)
     let salt = bcrypt.genSaltSync(saltRounds);
-    let hash = bcrypt.hashSync(data.password, salt);
-    console.log(`password hash:${hash}`)
-    knex('users').where({username}).select(['id','password']).then((query)=>{
-        if (query.password && bcrypt.compareSync(sentPW, query.password)){
-            console.log("It matches!")
-            return res.status(200).json({users_id:query.id})
+    let hash = bcrypt.hashSync(sentPW, salt);
+    
+    knex('users').where({username}).select('id','password').then((query)=>{
+        console.log(`password hash:${hash}`)
+        console.log(`${Object.keys(query[0])} passwordquery response:${query[0].password}`)
+        if (query[0].password && bcrypt.compareSync(sentPW, query[0].password)){
+            console.log(`It matches for user ${query[0].id}`)
+            return res.status(200).json({users_id:query[0].id})
         }else
         {
             return res.status(401).json({users_id:0})
