@@ -179,13 +179,13 @@ function App() {
   return (
     <div className="App">
       <AuthContext.Provider value={authObjContext}>
-      <Grid container spacing={2}
+      <Grid container spacing={1}
                   direction="row"
                   justifyContent="center"
                   alignItems="center"
                   variant="outlined" >
         <Grid item xs={3}>
-        <Typography variant="h2">TheBlog for {authObj.username}</Typography>
+        <Typography variant="h3">TheBlog for {authObj.username}</Typography>
         </Grid>
         <Grid item xs={2}>
           <InputLabel variant="standard" htmlFor="Filter_Dropdown">
@@ -201,15 +201,17 @@ function App() {
               {filterNameChoices.map((el)=>(<option key={`option_${el.id}`} value={el.id}>{el.username}</option>))}
 
             </NativeSelect>
-          </Grid>
-            <Grid container direction="column">
+          </Grid >
+            <Grid item xs={2} container direction="column">
             <Button onClick={openRegistration}>Register</Button>            
             <Button onClick={openLog}>{logButtonValue}</Button>
     
             </Grid>
-        </Grid>
+            </Grid>
         <Registration open={openRegister} setOpen={setOpenRegister} createFn={createUser}></Registration>
         <Login open={openLogin} setOpen={setOpenLogin} loginFn={loginUser}></Login>
+        
+ 
       <CreatePost disableCreate={disableCreate} users_id={authObj.AuthId} createFn={createEntry}/>
       <PostList updateFn={submitUpdate} deleteFn={deleteEntry} entryList={filteredList}/>
       </AuthContext.Provider>
