@@ -19,7 +19,7 @@ const outerGrid = {
     
   }
 
-const Post=({users_id, createFn})=> {
+const Post=({disableCreate, users_id, createFn})=> {
     const stamp = new Date().toUTCString();
     const [titleState, setTitleState] = useState("");
     const [contentState, setContentState] = useState("");
@@ -40,7 +40,7 @@ const Post=({users_id, createFn})=> {
 
     return (
         <div align="center">
-        <Button onClick={handleOpen}>Create Post</Button>
+        <Button disabled={disableCreate} onClick={handleOpen}>Create Post</Button>
         <Modal
             
             hideBackdrop

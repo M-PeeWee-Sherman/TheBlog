@@ -112,6 +112,7 @@ const Registration = ({open, setOpen,createFn})=>{
                 autoComplete="username"
                 className="inputs"
                 disableUnderline={true}
+                inputProps={{ maxLength: 20 }}
                 onChange={handleChange}
               />
             </FormControl>

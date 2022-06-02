@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcryptjs');
 var cors = require('cors');
 const app = express();
 app.use(cors());
@@ -77,22 +78,42 @@ app.get('/users', (req,res)=>{
     .then((data)=>res.status(200).json(data));
 });
 
+const saltRounds = 10;
 //Create User
 app.post('/users', (req,res)=>{
     //console.log(`Post User Pinged for creation of ${req.body.username}`)
     let data = req.body;
+    //knew('users').where({data.username}).count('active').then((total)=>{
+    // if(parseInt(total)>0){now allow entry of username}
+    //})
+    let salt = bcrypt.genSaltSync(saltRounds);
+    let hash = bcrypt.hashSync(data.password, salt);
+
+    data.password = hash;
     knex('users').returning('id').insert(data).then((id)=>{
         //console.log(`id ${id} added`)
         return res.status(201).json(id);})
+
 });
 
-// //Update User
-// app.post('/users/:id', (req,res)=>{
+//Check submission and generate a 'key'
+app.post('/login',(req,res)=>{
+    var sentPW = req.body.password;
+    var username = req.body.username;
+    console.log(`received username:${username} and password:${sentPW}`)
+    let salt = bcrypt.genSaltSync(saltRounds);
+    let hash = bcrypt.hashSync(data.password, salt);
+    console.log(`password hash:${hash}`)
+    knex('users').where({username}).select(['id','password']).then((query)=>{
+        if (query.password && bcrypt.compareSync(sentPW, query.password)){
+            console.log("It matches!")
+            return res.status(200).json({users_id:query.id})
+        }else
+        {
+            return res.status(401).json({users_id:0})
+        }
+    })
+})
 
-// })
-
-// app.delete('/users/:id', (req,res)=>{
-
-// })
 
 app.listen(port, ()=>console.log(`Express server listening on port ${port}`));
