@@ -100,7 +100,7 @@ app.post('/users', (req,res)=>{
 app.post('/login',(req,res)=>{
     var sentPW = req.body.password;
     var username = req.body.username;
-    console.log(`received username:${username} and password:${sentPW}`)
+    //console.log(`received username:${username} and password:${sentPW}`)
     let salt = bcrypt.genSaltSync(saltRounds);
     let hash = bcrypt.hashSync(sentPW, salt);
     

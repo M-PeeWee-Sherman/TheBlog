@@ -25,7 +25,7 @@ function App() {
   const [logButtonValue, setLogButtonValue] = useState("Log In")
   const authObjContext = useState({AuthId:0,PW:"",username:"Guest"});
   const [authObj, setAuthObj] = authObjContext;
-
+  let [currentUserView, setCurrentUserView]= useState({id:0,username:'View All'}); //asign user id
 
 
   let openRegistration = (e) =>{
@@ -34,7 +34,7 @@ function App() {
 
   const changeView=(id)=>{
       let fullObject = filterNameChoices.filter((el)=>(parseInt(el.id)===parseInt(id)))
-    setCurrentUserView({...fullObject[0]});
+      setCurrentUserView({...fullObject[0]});
   }
 
   const logOut=()=>{
@@ -95,6 +95,12 @@ function App() {
      updateFn()});
   }
 
+  useEffect(()=>{
+    if (logButtonValue==="Log Out"){
+      setOpenLogin(false);
+    }
+  },[logButtonValue])
+
   let loginUser = (credentials)=>{
    
     fetch(`${baseURL}login`, {
@@ -102,22 +108,24 @@ function App() {
       headers: {"content-type": "application/json"},
       body: JSON.stringify(credentials)
           
-    }).then(response => response.json())
+    }).then((response) => {
+      //window.alert(`Fetch Answer REturned ${response}`);
+      return response.json()})
       .then((res)=>{
-      //   window.alert(res) 
-      // window.alert(Object.keys(res))
-      window.alert(res.body.users_id)
-      let idAnswer = parseInt(res.body.users_id);
+        //  window.alert(res) 
+        // window.alert(Object.keys(res))
+        // window.alert(res.users_id)
+      let idAnswer = parseInt(res.users_id);
 
       if (idAnswer>0){
-        window.alert(`Answer ${idAnswer}`);
+        //window.alert(`Answer ${idAnswer}`);
         setAuthObj({AuthId:idAnswer,PW:credentials.password, username:credentials.username});
         setLogButtonValue("Log Out");
         changeView(idAnswer);
-        return true;
+
       }else{
         window.alert("Incorrect username or password");
-        return false;
+
       }
       
     });
@@ -149,7 +157,7 @@ function App() {
 
   }
 
-  let [currentUserView, setCurrentUserView]= useState({id:0,username:'View All'}); //asign user id
+  
 
   const handleFilterChange = (event) => {
     let fullObject = filterNameChoices.filter((el)=>(parseInt(el.id)===parseInt(event.target.value)))

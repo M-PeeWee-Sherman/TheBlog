@@ -30,13 +30,8 @@ const Login = ({open, setOpen,loginFn})=>{
   const submitLogin = (e)=>{
       e.preventDefault();
       //window.alert(`username:${loginInfo.username}--password:${loginInfo.password}`)
-      let response = loginFn({username:loginInfo.username, password:loginInfo.password});
-
-      if (response){
-        setOpen(false);
-      }
+      loginFn({username:loginInfo.username, password:loginInfo.password})
     }
-  
 
     return (<Modal
         hideBackdrop
