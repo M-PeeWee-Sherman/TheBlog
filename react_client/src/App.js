@@ -95,11 +95,15 @@ function App() {
      updateFn()});
   }
 
+  //called on successful login
   useEffect(()=>{
     if (logButtonValue==="Log Out"){
       setOpenLogin(false);
     }
-  },[logButtonValue])
+      let index = filterNameChoices.findIndex((el)=>(el.id===authObj.AuthId))
+      document.getElementById("Filter_Dropdown").selectedIndex = index;
+
+  },[authObj, logButtonValue])
 
   let loginUser = (credentials)=>{
    
@@ -157,7 +161,6 @@ function App() {
 
   }
 
-  
 
   const handleFilterChange = (event) => {
     let fullObject = filterNameChoices.filter((el)=>(parseInt(el.id)===parseInt(event.target.value)))
