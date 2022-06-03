@@ -201,7 +201,7 @@ function App() {
               {filterNameChoices.map((el)=>(<option key={`option_${el.id}`} value={el.id}>{el.username}</option>))}
 
             </NativeSelect>
-          </Grid >
+          </Grid>
             <Grid item xs={2} container direction="column">
             <Button onClick={openRegistration}>Register</Button>            
             <Button onClick={openLog}>{logButtonValue}</Button>
