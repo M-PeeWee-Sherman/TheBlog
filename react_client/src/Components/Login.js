@@ -5,7 +5,7 @@ import { Avatar, Paper, Modal, FormControl, Input, InputLabel, InputAdornment, B
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
- 
+import './EntryForms.css' 
 
 const Login = ({open, setOpen,loginFn})=>{
   const [loginInfo, setLoginInfo] = useState({username:"",password:""});
@@ -38,7 +38,7 @@ const Login = ({open, setOpen,loginFn})=>{
         open={open}
         onClose={handleClose}>
           <Paper className="paper">
-          <Avatar className="Avatar">
+          <Avatar className="avatar">
             <PeopleAltIcon className="icon" />
           </Avatar>
           <form

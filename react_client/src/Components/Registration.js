@@ -3,10 +3,7 @@ import React, { useState, useEffect} from "react";
 //import { withStyles } from "@material-ui/core/styles";
 //import { register } from "./RegistrationStyles";
 import InputAdornment from '@mui/material/InputAdornment';
-
-import Paper from "@mui/material/Paper";
-import Avatar from "@mui/material/Avatar";
-import { FormControl, Input, InputLabel, Button } from "@mui/material/";
+import { Paper, Avatar, Modal, FormControl, Input, InputLabel, Button } from "@mui/material/";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import Snackbar from "@mui/material/Snackbar";
 import SnackbarContent from "@mui/material/SnackbarContent";
@@ -15,7 +12,7 @@ import ErrorIcon from "@mui/icons-material/Error";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import CloseIcon from "@mui/icons-material/Close";
-import Modal from '@mui/material/Modal';
+import './EntryForms.css'
 
 const Registration = ({open, setOpen,createFn})=>{
 
@@ -95,7 +92,7 @@ const Registration = ({open, setOpen,createFn})=>{
         {/* <CssBaseline /> */}
 
         <Paper className="paper">
-          <Avatar className="Avatar">
+          <Avatar className="avatar">
             <PeopleAltIcon className="icon" />
           </Avatar>
           <form
